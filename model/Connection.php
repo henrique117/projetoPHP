@@ -5,7 +5,7 @@ final class Connection {
         $type = 'mysql';
         $user = 'alunos';
         $pass = 'cefetmg';
-        $name = 'Henrique';
+        $name = 'henriqueWEB';
         $host = 'localhost';
 
         switch ($type) {

@@ -16,7 +16,7 @@ spl_autoload_register('classLoader');
 // Front Controller
 class Aplicacao
 {
-  private static $app = "/henrique/projetoPHP";
+  private static $app = "/henrique";
   public static function run()
   {
     $layout = new Template('view/layout.html');
