@@ -25,4 +25,18 @@ class Tabela
   {
     Transaction::close();
   }
+
+  public function remover()
+  {
+    if (isset($_GET["id"])) {
+      try {
+        $conexao = Transaction::get();
+        $id = $conexao->quote($_GET["id"]);
+        $computador = new Crud("softwares");
+        $computador->delete("id=$id");
+      } catch (Exception $e) {
+        echo $e->getMessage();
+      }
+    }
+  }
 }
