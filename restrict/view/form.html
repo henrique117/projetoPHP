@@ -1,0 +1,25 @@
+<form method="POST" action="?class=Form&method=salvar">
+    <input type="hidden" name="id" value="{id}" />
+      <div>
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" id="nome" required value="{nome}" />
+      </div>
+      <div>
+        <label for="ling">Linguagem: </label>
+        <input name="linguagem" id="ling" required value="{linguagem}" />
+      </div>
+      <div>
+        <label for="data">Data: </label>
+        <input
+          type="date"
+          step="0.01"
+          name="data"
+          id="data"
+          required
+          value="{data}"
+      />
+      </div>
+      <div>
+        <button type="submit">Salvar</button>
+      </div>
+  </form>
