@@ -26,7 +26,7 @@ class Login{
                     Session::startSession();
                     Session::setValue("id", $usuario[0]["id"]);
                     Session::setValue("nome", $usuario[0]["nome"]);
-                    header("Location:/TobiasWEB2/restrita.php");
+                    header("Location:/henrique/restrita.php");
                 }   
                 $this->message = $crud->getMessage();
                 $this->message = "Login ou senha inválidos!";
@@ -52,7 +52,7 @@ class Login{
                 $msg->set("cor", "success");
             }
             $msg->set("msg", $this->message);
-            $msg->set("uri", "/modelo/?class=Login");
+            $msg->set("uri", "/henrique/?class=Login");
             return $msg->saida();    
         }
     }

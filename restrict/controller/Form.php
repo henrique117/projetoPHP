@@ -9,7 +9,7 @@ class Form
   }
   public function controller()
   {
-    $form = new Template("view/form.html");
+    $form = new Template("restrict/view/form.html");
     $form->set("id", "");
     $form->set("nome", "");
     $form->set("linguagem", "");
@@ -18,43 +18,52 @@ class Form
   }
   public function salvar()
   {
-    if (isset($_POST['nome']) && isset($_POST['linguagem']) && isset($_POST['data'])) {
+    if (isset($_POST["nome"]) && isset($_POST["linguagem"]) && isset($_POST["data"])) {
       try {
         $conexao = Transaction::get();
-        $software = new Crud('softwares');
-        $nome = $conexao->quote($_POST['nome']);
-        $linguagem = $conexao->quote($_POST['linguagem']);
-        $data = $conexao->quote($_POST['data']);
+        $softwares = new Crud("softwares");
+        $nome = $conexao->quote($_POST["nome"]);
+        $linguagem = $conexao->quote($_POST["linguagem"]);
+        $data = $conexao->quote($_POST["data"]);
         if (empty($_POST["id"])) {
-          $software->insert("nome,linguagem,data", "$nome,$linguagem,$data");
+          $softwares->insert(
+            "nome, linguagem, data",
+            "$nome, $linguagem, $data"
+          );
         } else {
-          $id = $conexao->quote($_POST['id']);
-          $software->update("nome=$nome,linguagem=$linguagem,data=$data", "id=$id");
+          $id = $conexao->quote($_POST["id"]);
+          $softwares->update(
+            "nome = $nome, linguagem = $linguagem, data = $data",
+            "id = $id"
+          );
         }
-        $this->message = $software->getMessage();
-        $this->error = $software->getError();
+        $this->message = $softwares->getMessage();
+        $this->error = $softwares->getError();
       } catch (Exception $e) {
         $this->message = $e->getMessage();
         $this->error = true;
       }
+    } else {
+      $this->message = "Campos não informados!";
+      $this->error = true;
     }
   }
   public function editar()
   {
-    if (isset($_GET['id'])) {
+    if (isset($_GET["id"])) {
       try {
         $conexao = Transaction::get();
-        $id = $conexao->quote($_GET['id']);
-        $software = new Crud('softwares');
-        $resultado = $software->select("*", "id=$id");
-        if (!$software->getError()) {
-          $form = new Template("view/form.html");
-          foreach ($resultado[0] as $cod => $nome) {
-            $form->set($cod, $nome);
+        $id = $conexao->quote($_GET["id"]);
+        $softwares = new Crud("softwares");
+        $resultado = $softwares->select("*", "id = $id");
+        if (!$softwares->getError()) {
+          $form = new Template("restrict/view/form.html");
+          foreach ($resultado[0] as $cod => $elenco) {
+            $form->set($cod, $elenco);
           }
           $this->message = $form->saida();
         } else {
-          $this->message = $software->getMessage();
+          $this->message = $softwares->getMessage();
           $this->error = true;
         }
       } catch (Exception $e) {
@@ -68,7 +77,7 @@ class Form
     if (is_string($this->error)) {
       return $this->message;
     } else {
-      $msg = new Template("view/msg.html");
+      $msg = new Template("shared/view/msg.html");
       if ($this->error) {
         $msg->set("cor", "danger");
       } else {
